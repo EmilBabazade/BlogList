@@ -6,7 +6,7 @@ import logger from './utils/logger'
 import morgan from 'morgan'
 import express from 'express'
 import blogsRouter from './controllers/blogs'
-import {unknownEndpoint} from './utils/middleware'
+import {errorHandler, unknownEndpoint} from './utils/middleware'
 
 const app = express()
 
@@ -31,5 +31,6 @@ mongoose.connect(MONGODB_URI!, {
 app.use('/api/blogs', blogsRouter)
 
 app.use(unknownEndpoint)
+app.use(errorHandler)
 
 export default app
