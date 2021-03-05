@@ -7,6 +7,7 @@ function unknownEndpoint(req, res) {
 exports.unknownEndpoint = unknownEndpoint;
 function errorHandler(err, req, res, next) {
     console.log(err);
+    // handle errors here ( will do sometime in the some near some possible some future, aka never)
     next(err);
 }
 exports.errorHandler = errorHandler;

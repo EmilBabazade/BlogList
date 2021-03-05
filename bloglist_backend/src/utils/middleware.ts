@@ -7,6 +7,8 @@ function unknownEndpoint(req: express.Request, res: express.Response) {
 function errorHandler(err: any, req: express.Request, res: express.Response, next: NextFunction) {
 	console.log(err)
 
+	// handle errors here ( will do sometime in the some near some possible some future, aka never)
+
 	next(err)
 } 
 

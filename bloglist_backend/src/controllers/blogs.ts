@@ -21,4 +21,10 @@ blogs.delete('/:id', async (req: Request, res: Response) => {
 	res.status(204).end()
 })
 
+blogs.put('/:id', async (req: Request, res: Response) => {
+	const id = req.params['id']
+	const blog = await Blog.findByIdAndUpdate(id, {likes: req.body.likes})
+	res.status(200)
+})
+
 export default blogs

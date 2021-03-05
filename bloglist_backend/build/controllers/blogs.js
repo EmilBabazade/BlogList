@@ -83,4 +83,18 @@ blogs.delete('/:id', function (req, res) { return __awaiter(void 0, void 0, void
         }
     });
 }); });
+blogs.put('/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, blog;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                id = req.params['id'];
+                return [4 /*yield*/, Blog_1.default.findByIdAndUpdate(id, { likes: req.body.likes })];
+            case 1:
+                blog = _a.sent();
+                res.status(200);
+                return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = blogs;
