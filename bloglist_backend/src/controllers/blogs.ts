@@ -15,4 +15,10 @@ blogs.post('/', async (req: Request, res: Response) => {
 	res.status(200).json(newBlog)
 })
 
+blogs.delete('/:id', async (req: Request, res: Response) => {
+	const id = req.params['id']
+	await Blog.findByIdAndDelete(id)
+	res.status(204).end()
+})
+
 export default blogs

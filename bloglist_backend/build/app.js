@@ -31,4 +31,5 @@ mongoose_1.default.connect(config_1.MONGODB_URI, {
 // routes
 app.use('/api/blogs', blogs_1.default);
 app.use(middleware_1.unknownEndpoint);
+app.use(middleware_1.errorHandler);
 exports.default = app;
