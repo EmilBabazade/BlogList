@@ -42,6 +42,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var Blog_1 = __importDefault(require("../models/Blog"));
 var User_1 = __importDefault(require("../models/User"));
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var config_1 = require("../utils/config");
 require("express-async-errors");
 var blogs = express_1.Router();
 blogs.get('/', function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -59,15 +61,26 @@ blogs.get('/', function (_, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); });
+var tokenExtractor = function (req) {
+    var authorization = req.get('auth');
+    if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+        return authorization.substring(7);
+    }
+    return null;
+};
 blogs.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, title, author, url, likes, user, blog, newBlog;
+    var _a, title, author, url, likes, token, decodedToken, user, blog, newBlog;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _a = req.body, title = _a.title, author = _a.author, url = _a.url, likes = _a.likes;
-                return [4 /*yield*/, User_1.default.findOne({})];
+                token = tokenExtractor(req);
+                if (token === null)
+                    throw 'invalid token';
+                decodedToken = jsonwebtoken_1.default.verify(token, config_1.TOKEN_SECRET);
+                return [4 /*yield*/, User_1.default.findById(decodedToken.id)];
             case 1:
-                user = _b.sent();
+                user = (_b.sent());
                 blog = new Blog_1.default({
                     title: title, author: author, url: url, likes: likes,
                     user: user._id

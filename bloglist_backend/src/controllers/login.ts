@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken'
 import {TOKEN_SECRET} from '../utils/config'
 import 'express-async-errors'
 
+
 const loginRouter = Router()
 
 loginRouter.post('/', async (req: Request, res: Response) => {
@@ -19,13 +20,12 @@ loginRouter.post('/', async (req: Request, res: Response) => {
 		throw 'unauthorized'
 	}
 
-	// too lazy to not assume TOKEN_SECRET will always not be null 
-	const token = jwt.sign({
-		username: user.username,
-		id: user._id
-	}, TOKEN_SECRET)
+    const token = jwt.sign({
+    	username: user.username,
+    	id: user._id
+    }, TOKEN_SECRET)
 
-	res.status(200).send({token, username: user.username, name: user.name})
+    res.status(200).send({token, username: user.username, name: user.name})
 })
 
 export default loginRouter

@@ -19,6 +19,7 @@ var app = express_1.default();
 app.use(express_1.default.static('../static'));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
+// app.use(tokenExtractor)
 app.use(cors_1.default());
 if (process.env.NODE_ENV !== 'test')
     app.use(morgan_1.default('tiny'));

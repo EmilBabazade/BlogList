@@ -9,8 +9,12 @@ function errorHandler(err, req, res, next) {
     console.log(err);
     // handle errors here
     if (err === 'unauthorized')
-        res.status(401).json({
+        return res.status(401).json({
             error: 'invalid username or password'
+        });
+    if (err === 'invalid token' || err.name === 'JsonWebTokenError')
+        return res.status(401).json({
+            error: 'invalid token'
         });
     next(err);
 }
