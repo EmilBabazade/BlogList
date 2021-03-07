@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
+	name: String,
 	username: String,
 	passwordHash: String,
 	blogs: [
@@ -19,3 +20,5 @@ userSchema.set('toJSON', {
 		delete returnedObject.passwordHash
 	}
 })
+
+export default mongoose.model('User', userSchema)
