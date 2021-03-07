@@ -21,4 +21,11 @@ userSchema.set('toJSON', {
 	}
 })
 
-export default mongoose.model('User', userSchema)
+interface UserDoc extends mongoose.Document {
+    name: string,
+	username: string,
+	passwordHash: string,
+    blogs: mongoose.Schema.Types.ObjectId[]
+}
+
+export default mongoose.model<UserDoc>('User', userSchema)

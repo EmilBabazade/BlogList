@@ -70,11 +70,15 @@ blogs.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 user = _b.sent();
                 blog = new Blog_1.default({
                     title: title, author: author, url: url, likes: likes,
-                    user: user === null || user === void 0 ? void 0 : user.id
+                    user: user._id
                 });
                 return [4 /*yield*/, blog.save()];
             case 2:
                 newBlog = _b.sent();
+                user.blogs = user.blogs.concat(newBlog._id);
+                return [4 /*yield*/, user.save()];
+            case 3:
+                _b.sent();
                 res.status(200).json(newBlog);
                 return [2 /*return*/];
         }

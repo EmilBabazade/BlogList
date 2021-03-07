@@ -19,4 +19,12 @@ blogSchema.set('toJSON', {
 	},
 })
 
-export default mongoose.model('Blog', blogSchema)
+interface BlogDoc extends mongoose.Document {
+    title: string,
+	author: string,
+	url: string,
+	likes: number,
+    user: mongoose.Schema.Types.ObjectId
+}
+
+export default mongoose.model<BlogDoc>('Blog', blogSchema)

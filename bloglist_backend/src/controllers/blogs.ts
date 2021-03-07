@@ -18,9 +18,11 @@ blogs.post('/', async (req: Request, res: Response) => {
 	const user = await User.findOne({})
 	const blog = new Blog({
 		title, author, url, likes,
-		user: user?.id
+		user: user!._id
 	})
 	const newBlog = await blog.save()
+	user!.blogs = user!.blogs.concat(newBlog._id)
+	await user!.save()
 	res.status(200).json(newBlog)
 })
 
