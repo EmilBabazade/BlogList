@@ -43,11 +43,20 @@ var express_1 = require("express");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var User_1 = __importDefault(require("../models/User"));
 require("express-async-errors");
-var users = express_1.Router();
-users.get('/', function (req, res) {
-    res.send('hello');
-});
-users.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var usersRouter = express_1.Router();
+usersRouter.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var users;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, User_1.default.find({}).populate('blogs')];
+            case 1:
+                users = _a.sent();
+                res.status(200).json(users);
+                return [2 /*return*/];
+        }
+    });
+}); });
+usersRouter.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, name, username, password, passwordHash, user, newUser;
     return __generator(this, function (_b) {
         switch (_b.label) {
@@ -65,4 +74,4 @@ users.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
         }
     });
 }); });
-exports.default = users;
+exports.default = usersRouter;

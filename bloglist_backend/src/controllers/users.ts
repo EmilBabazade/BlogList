@@ -3,13 +3,14 @@ import bcrypt from 'bcrypt'
 import User from '../models/User'
 import 'express-async-errors'
 
-const users = Router()
+const usersRouter = Router()
 
-users.get('/', (req: Request, res: Response) => {
-	res.send('hello')
+usersRouter.get('/', async (req: Request, res: Response) => {
+	const users = await User.find({}).populate('blogs')
+	res.status(200).json(users)
 })
 
-users.post('/', async (req: Request, res: Response) => {
+usersRouter.post('/', async (req: Request, res: Response) => {
 	const {name, username, password} = req.body
 	const passwordHash = await bcrypt.hash(password, 10)
 	const user = new User({ name, username, passwordHash })
@@ -17,4 +18,4 @@ users.post('/', async (req: Request, res: Response) => {
 	res.status(201).json(newUser)
 })
 
-export default users
+export default usersRouter
