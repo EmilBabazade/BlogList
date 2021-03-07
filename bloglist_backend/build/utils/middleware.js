@@ -7,7 +7,11 @@ function unknownEndpoint(req, res) {
 exports.unknownEndpoint = unknownEndpoint;
 function errorHandler(err, req, res, next) {
     console.log(err);
-    // handle errors here ( will do sometime in the some near some possible some future, aka never)
+    // handle errors here
+    if (err === 'unauthorized')
+        res.status(401).json({
+            error: 'invalid username or password'
+        });
     next(err);
 }
 exports.errorHandler = errorHandler;

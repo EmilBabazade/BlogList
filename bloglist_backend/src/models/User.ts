@@ -1,8 +1,12 @@
 import mongoose from 'mongoose'
+import 'mongoose-unique-validator'
 
 const userSchema = new mongoose.Schema({
 	name: String,
-	username: String,
+	username: {
+		type: String,
+		unique: true
+	},
 	passwordHash: String,
 	blogs: [
 		{

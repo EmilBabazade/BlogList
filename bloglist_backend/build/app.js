@@ -12,6 +12,7 @@ var morgan_1 = __importDefault(require("morgan"));
 var express_1 = __importDefault(require("express"));
 var blogs_1 = __importDefault(require("./controllers/blogs"));
 var users_1 = __importDefault(require("./controllers/users"));
+var login_1 = __importDefault(require("./controllers/login"));
 var middleware_1 = require("./utils/middleware");
 var app = express_1.default();
 // middlewares
@@ -32,6 +33,7 @@ mongoose_1.default.connect(config_1.MONGODB_URI, {
 // routes
 app.use('/api/blogs', blogs_1.default);
 app.use('/api/users', users_1.default);
+app.use('/api/login', login_1.default);
 app.use(middleware_1.unknownEndpoint);
 app.use(middleware_1.errorHandler);
 exports.default = app;

@@ -7,7 +7,11 @@ function unknownEndpoint(req: express.Request, res: express.Response) {
 function errorHandler(err: any, req: express.Request, res: express.Response, next: NextFunction) {
 	console.log(err)
 
-	// handle errors here ( will do sometime in the some near some possible some future, aka never)
+	// handle errors here
+	if (err === 'unauthorized') 
+		res.status(401).json({
+			error: 'invalid username or password'
+		})
 
 	next(err)
 } 

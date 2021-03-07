@@ -7,6 +7,7 @@ import morgan from 'morgan'
 import express from 'express'
 import blogsRouter from './controllers/blogs'
 import usersRouter from './controllers/users'
+import loginRouter from './controllers/login'
 import {errorHandler, unknownEndpoint} from './utils/middleware'
 
 const app = express()
@@ -31,6 +32,7 @@ mongoose.connect(MONGODB_URI!, {
 // routes
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 
 app.use(unknownEndpoint)
 app.use(errorHandler)
