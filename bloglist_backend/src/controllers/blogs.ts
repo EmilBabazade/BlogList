@@ -1,16 +1,25 @@
 import {Request, Response, Router} from 'express'
 import Blog from '../models/Blog'
+import User from '../models/User'
 import 'express-async-errors'
 
 const blogs = Router()
 
 blogs.get('/', async (_: Request, res: Response) => {
-	const blogsDb = await Blog.find({})
+	const blogsDb = await Blog.find({}).populate('user', {
+		name: 1,
+		username: 1
+	})
 	res.json(blogsDb)
 })
 
 blogs.post('/', async (req: Request, res: Response) => {
-	const blog = new Blog(req.body)
+	const {title, author, url, likes} = req.body
+	const user = await User.findOne({})
+	const blog = new Blog({
+		title, author, url, likes,
+		user: user?.id
+	})
 	const newBlog = await blog.save()
 	res.status(200).json(newBlog)
 })
@@ -23,8 +32,8 @@ blogs.delete('/:id', async (req: Request, res: Response) => {
 
 blogs.put('/:id', async (req: Request, res: Response) => {
 	const id = req.params['id']
-	const blog = await Blog.findByIdAndUpdate(id, {likes: req.body.likes})
-	res.status(200)
+	await Blog.findByIdAndUpdate(id, {likes: req.body.likes})
+	res.status(200).end()
 })
 
 export default blogs

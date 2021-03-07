@@ -41,13 +41,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var Blog_1 = __importDefault(require("../models/Blog"));
+var User_1 = __importDefault(require("../models/User"));
 require("express-async-errors");
 var blogs = express_1.Router();
 blogs.get('/', function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
     var blogsDb;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, Blog_1.default.find({})];
+            case 0: return [4 /*yield*/, Blog_1.default.find({}).populate('user', {
+                    name: 1,
+                    username: 1
+                })];
             case 1:
                 blogsDb = _a.sent();
                 res.json(blogsDb);
@@ -56,14 +60,21 @@ blogs.get('/', function (_, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); });
 blogs.post('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var blog, newBlog;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a, title, author, url, likes, user, blog, newBlog;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0:
-                blog = new Blog_1.default(req.body);
-                return [4 /*yield*/, blog.save()];
+                _a = req.body, title = _a.title, author = _a.author, url = _a.url, likes = _a.likes;
+                return [4 /*yield*/, User_1.default.findOne({})];
             case 1:
-                newBlog = _a.sent();
+                user = _b.sent();
+                blog = new Blog_1.default({
+                    title: title, author: author, url: url, likes: likes,
+                    user: user === null || user === void 0 ? void 0 : user.id
+                });
+                return [4 /*yield*/, blog.save()];
+            case 2:
+                newBlog = _b.sent();
                 res.status(200).json(newBlog);
                 return [2 /*return*/];
         }
@@ -84,15 +95,15 @@ blogs.delete('/:id', function (req, res) { return __awaiter(void 0, void 0, void
     });
 }); });
 blogs.put('/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, blog;
+    var id;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 id = req.params['id'];
                 return [4 /*yield*/, Blog_1.default.findByIdAndUpdate(id, { likes: req.body.likes })];
             case 1:
-                blog = _a.sent();
-                res.status(200);
+                _a.sent();
+                res.status(200).end();
                 return [2 /*return*/];
         }
     });

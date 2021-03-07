@@ -8,7 +8,11 @@ var blogSchema = new mongoose_1.default.Schema({
     title: String,
     author: String,
     url: String,
-    likes: Number
+    likes: Number,
+    user: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 blogSchema.set('toJSON', {
     transform: function (_, returnedObject) {
